@@ -5,16 +5,16 @@ services:
     build: 
       context: nginx/
       args:
-        - NGINX_VERSION=${NGINX_VERSION:-alpine}
+        - NGINX_VERSION=${NGINX_VERSION}
 
   postgres:
     build:
       context: postgres/
       args:
-        - POSTGRES_VERSION=${POSTGRES_VERSION:-alpine}
+        - POSTGRES_VERSION=${POSTGRES_VERSION}
   
   redis:
     build:
       context: redis/
       args:
-        - REDIS_VERSION=${REDIS_VERSION:-alpine}
+        - REDIS_VERSION=${REDIS_VERSION}

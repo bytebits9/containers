@@ -1,5 +1,9 @@
-ARG NGINX_VERSION
+ARG NGINX_VERSION=alpine
 FROM nginx:${NGINX_VERSION}
+
+LABEL org.opencontainers.image.source=https://github.com/bytebits9/containers/nginx
+LABEL org.opencontainers.image.description="nginx"
+LABEL org.opencontainers.image.licenses=MIT
 
 COPY nginx.conf /etc/nginx/
 

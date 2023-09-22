@@ -42,14 +42,3 @@ jobs:
           context: ./${{ matrix.services }}
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.actor }}/${{ matrix.services }}:${{ github.run_id }}
-      
-      - name: cosign-installer
-        uses: sigstore/cosign-installer@v3.1.1
-      
-      - name: Write signing key to disk
-        run: echo "${{ secrets.SIGNING_SECRET }}" > cosign.key
-
-      - name: Sign the published Docker image
-        env:
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: cosign sign --key cosign.key ${{ env.REGISTRY }}/${{ github.actor }}/${{ matrix.services }}:${{ github.run_id }}
