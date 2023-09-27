@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        services: [ 'nginx', 'redis', 'postgres' ]
+        services: [ 'nginx', 'redis', 'postgres', 'bun' ]
 
     permissions:
       contents: read
@@ -42,5 +42,5 @@ jobs:
           context: ./${{ matrix.services }}
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.actor }}/${{ matrix.services }}:${{ github.run_id }}, \
+            ${{ env.REGISTRY }}/${{ github.actor }}/${{ matrix.services }}:${{ github.run_id }},
             ${{ env.REGISTRY }}/${{ github.actor }}/${{ matrix.services }}:latest

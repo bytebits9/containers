@@ -1,4 +1,4 @@
-ARG NGINX_VERSION
+ARG NGINX_VERSION=alpine
 FROM nginx:${NGINX_VERSION}
 
 LABEL org.opencontainers.image.source=https://github.com/bytebits9/containers/nginx

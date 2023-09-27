@@ -1,4 +1,4 @@
-ARG POSTGRES_VERSION
+ARG POSTGRES_VERSION=alpine
 FROM postgres:${POSTGRES_VERSION}
 
 LABEL org.opencontainers.image.source=https://github.com/bytebits9/containers/postgres
