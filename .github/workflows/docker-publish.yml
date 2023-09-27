@@ -41,4 +41,6 @@ jobs:
         with:
           context: ./${{ matrix.services }}
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.actor }}/${{ matrix.services }}:${{ github.run_id }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.actor }}/${{ matrix.services }}:${{ github.run_id }}, \
+            ${{ env.REGISTRY }}/${{ github.actor }}/${{ matrix.services }}:latest
