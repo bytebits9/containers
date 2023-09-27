@@ -1,11 +1,16 @@
 version: '3.8'
 
 services:
+  bun:
+    build:
+      context: bun/
+
   nginx:
     build: 
       context: nginx/
       args:
         - NGINX_VERSION=${NGINX_VERSION:-alpine}
+
   postgres:
     build:
       context: postgres/
@@ -15,7 +20,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB:-postgres}
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
-  
+      
   redis:
     build:
       context: redis/
