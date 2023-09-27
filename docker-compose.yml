@@ -2,16 +2,19 @@ version: '3.8'
 
 services:
   bun:
+    image: ghcr.io/bytebits9/bun
     build:
       context: bun/
 
   nginx:
+    image: ghcr.io/bytebits9/nginx
     build: 
       context: nginx/
       args:
         - NGINX_VERSION=${NGINX_VERSION:-alpine}
 
   postgres:
+    image: ghcr.io/bytebits9/postgres
     build:
       context: postgres/
       args:
@@ -22,7 +25,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
       
   redis:
+    image: ghcr.io/bytebits9/redis
     build:
       context: redis/
       args:
-        - REDIS_VERSION=${REDIS_VERSION}
+        - REDIS_VERSION=${REDIS_VERSION:-alpine}
