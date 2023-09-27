@@ -1,5 +1,9 @@
 FROM alpine:edge
 
+LABEL org.opencontainers.image.source=https://github.com/bytebits9/containers/bun
+LABEL org.opencontainers.image.description="bun"
+LABEL org.opencontainers.image.licenses=MIT
+
 RUN apk update \
     && apk upgrade \
     && apk add bash curl
