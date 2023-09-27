@@ -1,4 +1,4 @@
-ARG NGINX_VERSION=alpine
+ARG NGINX_VERSION
 FROM nginx:${NGINX_VERSION}
 
 LABEL org.opencontainers.image.source=https://github.com/bytebits9/containers/nginx
@@ -6,12 +6,11 @@ LABEL org.opencontainers.image.description="nginx"
 LABEL org.opencontainers.image.licenses=MIT
 
 COPY nginx.conf /etc/nginx/
+COPY sites-available/default.conf /etc/nginx/sites-available/default.conf
 
 RUN apk update \
     && apk upgrade \
-    && apk add --no-cache openssl \
-    && apk add --no-cache bash \
-    && apk add --no-cache curl
+    && apk add openssl
 
 RUN set -x ; \
     addgroup -g 82 -S www-data ; \

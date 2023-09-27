@@ -5,8 +5,7 @@ services:
     build: 
       context: nginx/
       args:
-        - NGINX_VERSION=${NGINX_VERSION}
-
+        - NGINX_VERSION=${NGINX_VERSION:-alpine}
   postgres:
     build:
       context: postgres/
