@@ -10,7 +10,11 @@ services:
     build:
       context: postgres/
       args:
-        - POSTGRES_VERSION=${POSTGRES_VERSION}
+        - POSTGRES_VERSION=${POSTGRES_VERSION:-alpine}
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
   
   redis:
     build:
