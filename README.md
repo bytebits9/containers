@@ -1,14 +1,19 @@
-# Some docker containers
+# platform stack
 
-## Get an image
+## Dependencies
 
-The recommended way
+* [Docker](https://docs.docker.com/install/)
+* [Docker Compose](https://docs.docker.com/v17.09/compose/install/)
 
-``` docker pull ghcr.io/bytebits9/image ```
+## Services
 
-To use a specific version, you can pull a versioned tag.
+## Usage
 
-``` docker pull ghcr.io/bytebits9/image:[TAG]```
+### Download images
+
+```bash
+docker-compose pull
+```
 
 ## License
 
