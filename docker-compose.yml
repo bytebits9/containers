@@ -1,32 +1,35 @@
 version: '3.8'
 
-services:
-  bun:
-    image: ghcr.io/bytebits9/bun
-    build:
-      context: bun/
+networks:
+  backend:
+    external: true
+    driver: ${NETWORKS_DRIVER}
+  frontend:
+    external: true
+    driver: ${NETWORKS_DRIVER}
 
-  nginx:
-    image: ghcr.io/bytebits9/nginx
-    build: 
-      context: nginx/
-      args:
-        - NGINX_VERSION=${NGINX_VERSION:-alpine}
-
+volumes:
   postgres:
-    image: ghcr.io/bytebits9/postgres
-    build:
-      context: postgres/
-      args:
-        - POSTGRES_VERSION=${POSTGRES_VERSION:-alpine}
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB:-postgres}
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
-      
+    driver: ${VOLUMES_DRIVER}
   redis:
-    image: ghcr.io/bytebits9/redis
-    build:
-      context: redis/
-      args:
-        - REDIS_VERSION=${REDIS_VERSION:-alpine}
+    driver: ${VOLUMES_DRIVER}
+
+services:
+  nginx:
+    image: ghcr.io/bytebits9/nginx:latest
+    volumes:
+      - ./docker/nginx/sites-available/:/etc/nginx/sites-available/
+      - ${PLATFORM_CODE_PATH_HOST}:${PLATFORM_CODE_PATH_CONTAINER}
+    ports:
+      - "80:80"
+      - "433:433"
+  redis:
+    image: ghcr.io/bytebits9/redis:latest
+    volumes:
+      - ./data/redis:/data
+    ports:
+      - "6379:6379"
+  postgres:
+    image: ghcr.io/bytebits9/postgres:latest
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
