@@ -23,15 +23,24 @@ services:
     ports:
       - "80:80"
       - "433:433"
+    networks:
+      - backend
+      - frontend
+
   redis:
     image: ghcr.io/bytebits9/redis:latest
     volumes:
       - ./data/redis:/data
     ports:
       - "6379:6379"
+    networks:
+      - backend
+
   postgres:
     image: ghcr.io/bytebits9/postgres:latest
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - backend
