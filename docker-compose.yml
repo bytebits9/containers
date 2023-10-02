@@ -2,10 +2,8 @@ version: '3.8'
 
 networks:
   backend:
-    external: true
     driver: ${NETWORKS_DRIVER}
   frontend:
-    external: true
     driver: ${NETWORKS_DRIVER}
 
 volumes:
@@ -15,17 +13,28 @@ volumes:
     driver: ${VOLUMES_DRIVER}
 
 services:
+  php-fpm:
+    image: ghcr.io/bytebits9/php-fpm:latest
+    volumes:
+      - ${PLATFORM_CODE_PATH_HOST}:${PLATFORM_CODE_PATH_CONTAINER}${PLATFORM_CODE_CONTAINER_FLAG}
+    networks:
+      - backend
+    expose:
+      - "9000"
+
   nginx:
     image: ghcr.io/bytebits9/nginx:latest
     volumes:
-      - ./docker/nginx/sites-available/:/etc/nginx/sites-available/
-      - ${PLATFORM_CODE_PATH_HOST}:${PLATFORM_CODE_PATH_CONTAINER}
+      - ./etc/nginx/sites-available/:/etc/nginx/sites-available/
+      - ${PLATFORM_CODE_PATH_HOST}:${PLATFORM_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
     ports:
       - "80:80"
       - "433:433"
     networks:
       - backend
       - frontend
+    depends_on:
+      - php-fpm
 
   redis:
     image: ghcr.io/bytebits9/redis:latest
