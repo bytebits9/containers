@@ -14,7 +14,7 @@ volumes:
 
 services:
   php-fpm:
-    image: ghcr.io/bytebits9/php-fpm:latest
+    image: ghcr.io/nulldark/php-fpm:latest
     volumes:
       - ${PLATFORM_CODE_PATH_HOST}:${PLATFORM_CODE_PATH_CONTAINER}${PLATFORM_CODE_CONTAINER_FLAG}
     networks:
@@ -23,7 +23,7 @@ services:
       - "9000"
 
   nginx:
-    image: ghcr.io/bytebits9/nginx:latest
+    image: ghcr.io/nulldark/nginx:latest
     volumes:
       - ./etc/nginx/sites-available/:/etc/nginx/sites-available/
       - ${PLATFORM_CODE_PATH_HOST}:${PLATFORM_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -37,7 +37,7 @@ services:
       - php-fpm
 
   redis:
-    image: ghcr.io/bytebits9/redis:latest
+    image: ghcr.io/nulldark/redis:latest
     volumes:
       - ./data/redis:/data
     ports:
@@ -46,7 +46,7 @@ services:
       - backend
 
   postgres:
-    image: ghcr.io/bytebits9/postgres:latest
+    image: ghcr.io/nulldark/postgres:latest
     environment:
       - POSTGRES_DB=${POSTGRES_DB:-app}
       - POSTGRES_USER=${POSTGRES_USER:-app}
