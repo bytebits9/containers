@@ -18,7 +18,7 @@ services:
     volumes:
       - ./.docker/php-fpm/www.conf:/etc/php/${PHP_VERSION}/php-fpm.d/www.conf
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-      - ${LOGS_HOST_PATH}/php-fpm:/var/log/php-fpm
+      - ${LOGS_PATH_HOST}/php-fpm:/var/log/php-fpm
     networks:
       - backend
     expose:
