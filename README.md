@@ -1,20 +1,39 @@
-# platform stack
+# localstack
+
+The development stack with preconfigured Docker containers is 
+designed to assist in establishing a local environment for developing future applications.
 
 ## Dependencies
 
 * [Docker](https://docs.docker.com/install/)
 * [Docker Compose](https://docs.docker.com/v17.09/compose/install/)
 
-## Services
+## Installation
+
+Copy the `.env.example` to `.env` or use `make setup`.
 
 ## Usage
 
-### Download images
-
+Running the development stack
 ```bash
-docker-compose pull
+make start
+```
+
+Stop all services
+```bash
+make stop
+```
+
+Restart services
+```bash
+make restart
+```
+
+Cleaning up all docker resources
+```bash
+make prune
 ```
 
 ## License
 
-[MIT](LICENSE.md)
+The localstack is open-sourced software licensed under the [MIT](LICENSE.md)
