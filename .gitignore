@@ -1,4 +1,8 @@
 .env
+.idea/
 
 data/
 !data/.gitkeep
+
+logs/
+!logs/.gitkeep
