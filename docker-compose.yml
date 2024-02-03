@@ -14,24 +14,25 @@ volumes:
 
 services:
   php-fpm:
-    image: ghcr.io/nulldark/php-fpm:latest
+    image: nuldark/php-fpm:${PHP_VERSION}
+    command: -F
     volumes:
-      - ./.docker/php-fpm/www.conf:/etc/php/${PHP_VERSION}/php-fpm.d/www.conf
-      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-      - ${LOGS_PATH_HOST}/php-fpm:/var/log/php-fpm
-    networks:
-      - backend
+      - ${APP_HOST_PATH}:${APP_CONTAINER_PATH}${APP_CONTAINER_FLAG}
+      - ${PHP_HOST_CONF_PATH}/php-fpm/www.conf:/usr/local/etc/php/php-fpm.d/www.conf${PHP_CONTAINER_FLAG}
+      - ${PHP_HOST_LOG_PATH}:/var/log${PHP_CONTAINER_FLAG}
     expose:
       - "9000"
+    networks:
+      - backend
 
   nginx:
-    image: ghcr.io/nulldark/nginx:${NGINX_VERSION}
+    image: nuldark/nginx:${NGINX_VERSION}
     volumes:
-      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-      - ${LOGS_PATH_HOST}/nginx:/var/log/nginx
-      - ${NGINX_HOST_SITES_PATH}:/etc/nginx/sites-available
-      - ${NGINX_HOST_SSL_PATH}:/etc/nginx/ssl
+      - ${APP_HOST_PATH}:${APP_CONTAINER_PATH}${APP_CONTAINER_FLAG}
+      - ${NGINX_HOST_CONF_PATH}/nginx.conf:/etc/nginx/nginx.conf${NGINX_CONTAINER_FLAG}
+      - ${NGINX_HOST_CONF_PATH}/sites-available:/etc/nginx/sites-available${NGINX_CONTAINER_FLAG}
+      - ${NGINX_HOST_CONF_PATH}/ssl:/etc/nginx/ssl${NGINX_CONTAINER_FLAG}
+      - ${NGINX_HOST_LOG_PATH}:/var/log/nginx${NGINX_CONTAINER_FLAG}
     ports:
       - "${NGINX_HOST_PORT_HTTP}:80"
       - "${NGINX_HOST_PORT_HTTPS}:433"
@@ -42,9 +43,11 @@ services:
       - backend
 
   redis:
-    image: redis:${REDIS_VERSION}
+    image: nuldark/redis:${REDIS_VERSION}
+    command: --requirepass ${REDIS_PASSWORD}
     volumes:
-      - ${DATA_PATH_HOST}/redis:/data
+      - ${REDIS_HOST_CONF_PATH}:/usr/local/etc/redis/redis.conf${REDIS_CONTAINER_FLAG}
+      - ${REDIS_HOST_DATA_PATH}:/data${REDIS_CONTAINER_FLAG}
     ports:
       - "${REDIS_PORT}:6379"
     networks:
@@ -57,7 +60,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-app}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
     volumes:
-      - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
+      - ${POSTGRES_HOST_DATA_PATH}:/var/lib/postgresql/data${POSTGRES_CONTAINER_FLAG}
     ports:
       - "${POSTGRES_PORT}:5432"
     networks:
