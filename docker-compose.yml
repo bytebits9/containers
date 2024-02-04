@@ -60,7 +60,9 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-app}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
     volumes:
+      - ${POSTGRES_HOST_CONF_PATH}/postgresql.conf:/var/lib/postgresql/data/postgresql.conf${POSTGRES_CONTAINER_FLAG}
       - ${POSTGRES_HOST_DATA_PATH}:/var/lib/postgresql/data${POSTGRES_CONTAINER_FLAG}
+      - ${POSTGRES_HOST_LOG_PATH}:/var/log/postgresql${POSTGRES_CONTAINER_FLAG}
     ports:
       - "${POSTGRES_PORT}:5432"
     networks:
