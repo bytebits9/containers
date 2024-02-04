@@ -70,7 +70,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:${PGADMIN_VERSION}
-    user: "${UID}:${GID}"
+    user: "root"
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
