@@ -11,20 +11,31 @@ volumes:
     driver: ${DRIVER_VOLUMES}
   redis:
     driver: ${DRIVER_VOLUMES}
+  docker-in-docker:
+    driver: ${DRIVER_VOLUMES}
 
 services:
   php-fpm:
     image: nuldark/php-fpm:${PHP_VERSION}
-    command: -F
     volumes:
       - ${APP_HOST_PATH}:${APP_CONTAINER_PATH}${APP_CONTAINER_FLAG}
       - ${PHP_HOST_CONF_PATH}/php-fpm/www.conf:/usr/local/etc/php/php-fpm.d/www.conf${PHP_CONTAINER_FLAG}
       - ${PHP_HOST_LOG_PATH}:/var/log${PHP_CONTAINER_FLAG}
+      - docker-in-docker:/certs/client
+    environment:
+      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+      - DOCKER_HOST=tcp://docker-in-docker:2376
+      - DOCKER_TLS_VERIFY=1
+      - DOCKER_TLS_CERTDIR=/certs
+      - DOCKER_CERT_PATH=/certs/client
     expose:
       - "9000"
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
     networks:
       - backend
-
+    links:
+      - docker-in-docker
   nginx:
     image: nuldark/nginx:${NGINX_VERSION}
     volumes:
@@ -93,4 +104,17 @@ services:
       - "${MAILHOG_HTTP_PORT}:8025"
     networks:
       - frontend
+      - backend
+
+  docker-in-docker:
+    image: docker:24.0-dind
+    environment:
+      DOCKER_TLS_SAN: DNS:docker-in-docker
+    privileged: true
+    volumes:
+      - ${APP_HOST_PATH}:${APP_CONTAINER_PATH}${APP_CONTAINER_FLAG}
+      - docker-in-docker:/certs/client
+    expose:
+      - 2365
+    networks:
       - backend
