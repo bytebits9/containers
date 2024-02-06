@@ -16,7 +16,10 @@ volumes:
 
 services:
   php-fpm:
-    image: nuldark/php-fpm:${PHP_VERSION}
+    build:
+      context: ./devops/docker/images/php-fpm
+      args:
+        - PHP_VERSION=${PHP_VERSION}
     volumes:
       - ${APP_HOST_PATH}:${APP_CONTAINER_PATH}${APP_CONTAINER_FLAG}
       - ${PHP_HOST_CONF_PATH}/php-fpm/www.conf:/usr/local/etc/php/php-fpm.d/www.conf${PHP_CONTAINER_FLAG}
