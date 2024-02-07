@@ -1,4 +1,4 @@
-.env
+devops/docker/.env
 .idea/
 
 var/

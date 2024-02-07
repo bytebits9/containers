@@ -17,7 +17,7 @@ volumes:
 services:
   php-fpm:
     build:
-      context: ./devops/docker/images/php-fpm
+      context: ../images/php-fpm
       args:
         - PHP_VERSION=${PHP_VERSION}
     volumes:
