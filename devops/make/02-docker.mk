@@ -22,6 +22,11 @@ docker-stop: ## Stop containers
 	@printf "$(COLOR_GREEN) Stopping containers ...$(NO_COLOR)"
 	$(DOCKER_COMPOSE) stop
 
+.PHONY: docker-exec
+docker-exec: ## Execute commands in container
+	@printf "$(COLOR_GREEN) Executing commands in containers...$(NO_COLOR)"
+	$(DOCKER_COMPOSE) exec -T php-fpm ash -c "$(filter-out $@,$(MAKECMDGOALS))"
+
 .PHONY: docker-prune
 docker-prune: ## Prune containers
 	@printf "$(COLOR_GREEN) Pruning containers...$(NO_COLOR)"
