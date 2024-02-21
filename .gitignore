@@ -1,5 +1,19 @@
-devops/docker/.env
-.idea/
+### os
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+./Icon?
+ehthumbs.db
+Thumbs.db
 
-var/
-!var/.gitkeep
+### ide
+/.idea/
+/.fleet/
+/.run/
+/.vscode/
+
+#### data
+.env
+data/

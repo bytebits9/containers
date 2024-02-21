@@ -1,0 +1,36 @@
+version: '3.8'
+
+volumes:
+  postgres:
+    driver: ${DRIVER_VOLUMES}
+
+services:
+  pgsql:
+    image: postgres:${POSTGRES_VERSION}
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-app}
+      - POSTGRES_USER=${POSTGRES_USER:-app}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./conf/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf:delegated
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    networks:
+      - backend
+  pgadmin:
+    image: dpage/pgadmin4:${PGADMIN_VERSION}
+    user: "root"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_CONFIG_SERVER_MODE=${PGADMIN_CONFIG_SERVER_MODE}
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin:delegated
+    ports:
+      - "${PGADMIN_PORT}:80"
+    depends_on:
+      - pgsql
+    networks:
+      - frontend
+      - backend
