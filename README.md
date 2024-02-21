@@ -3,35 +3,41 @@
 The development stack with preconfigured Docker containers is 
 designed to assist in establishing a local environment for developing future applications.
 
-## Dependencies
+## Requirements
 
-* [Docker](https://docs.docker.com/install/)
-* [Docker Compose](https://docs.docker.com/v17.09/compose/install/)
+Tools used by this project:
+
+- Bash 
+- Make
+- [Docker](https://docs.docker.com/install/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Installation
 
-Copy the `.env.example` to `.env` or use `make setup`.
+### Pre-install
 
-## Usage
+Execute the following command:
 
-Running the development stack
 ```bash
-make start
+make project-init
 ```
+### Configure
 
-Stop all services
+Configure the .env file and the configuration files located in the `conf/` folder for your own needs.
+
+### Post-install
+
+Execute the following command to start the stack:
+
 ```bash
-make stop
+make docker-up
 ```
+### Usage
 
-Restart services
-```bash
-make restart
-```
+Execute the following command to see all the available commands:
 
-Cleaning up all docker resources
 ```bash
-make prune
+make help
 ```
 
 ## License
