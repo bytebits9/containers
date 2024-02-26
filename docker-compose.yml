@@ -11,6 +11,22 @@ volumes:
     driver: ${DRIVER_VOLUMES}
 
 services:
+  nginx:
+    image: nuldark/nginx:${NGINX_VERSION}
+    volumes:
+      - ${APP_HOST_PATH}:${APP_CONTAINER_PATH}${APP_CONTAINER_FLAG}
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:delegated
+      - ./docker/nginx/sites-enabled:/etc/nginx/sites-enabled:delegated
+      - ./docker/nginx/ssl:/etc/nginx/ssl:delegated
+    ports:
+      - "${NGINX_HOST_PORT_HTTP}:80"
+      - "${NGINX_HOST_PORT_HTTPS}:433"
+    depends_on:
+      - php-fpm
+    networks:
+      - frontend
+      - backend
+
   php-fpm:
     build:
       context: ./docker/php/
@@ -26,22 +42,6 @@ services:
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     networks:
-      - backend
-
-  nginx:
-    image: nuldark/nginx:${NGINX_VERSION}
-    volumes:
-      - ${APP_HOST_PATH}:${APP_CONTAINER_PATH}${APP_CONTAINER_FLAG}
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:delegated
-      - ./docker/nginx/sites-enabled:/etc/nginx/sites-enabled:delegated
-      - ./docker/nginx/ssl:/etc/nginx/ssl:delegated
-    ports:
-      - "${NGINX_HOST_PORT_HTTP}:80"
-      - "${NGINX_HOST_PORT_HTTPS}:433"
-    depends_on:
-      - php-fpm
-    networks:
-      - frontend
       - backend
 
   mailhog:
