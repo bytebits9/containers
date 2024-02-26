@@ -17,6 +17,7 @@ services:
       - "${POSTGRES_PORT}:5432"
     networks:
       - backend
+
   pgadmin:
     image: dpage/pgadmin4:${PGADMIN_VERSION}
     user: "root"
